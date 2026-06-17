@@ -1,1 +1,11 @@
 .\extract-commits_v2.ps1 -RepoPath "I:\ai\Understand-Anything" -Branch main -Author "ZebangCheng" -OutputPath "I:\ai\temp\2.json"
+
+$uri = "https://your-redmine/issues/123.json?include=journals,attachments"
+$headers = @{"X-Redmine-API-Key" = "your-api-key"}
+$issue = Invoke-RestMethod -Uri $uri -Headers $headers
+
+# 评论数
+$comments = ($issue.issue.journals | Where-Object { $_.notes }).Count
+
+# 附件名
+$issue.issue.attachments | ForEach-Object { $_.filename }
